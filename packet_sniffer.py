@@ -2,6 +2,13 @@
 import scapy.all as scapy
 from scapy.layers import http
 import re
+import argparse
+
+def get_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--interface", dest="interface", help="Interface To Work With") #Runtime argument
+    options = parser.parse_args()
+    return options
 
 def sniff(interface):
     scapy.sniff(iface=interface, store=False, prn=process_sniffed_packet) #iface = the interface, store = store or not store infromation in the memory, prn = call back function
@@ -33,4 +40,5 @@ def process_sniffed_packet(packet):
                         print("\n")
                     break
                 
-sniff("eth0")
+options = get_arguments()
+sniff(options.interface)
